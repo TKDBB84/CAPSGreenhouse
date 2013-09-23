@@ -13,7 +13,7 @@ class Chamber implements JsonSerializable {
     private $pdo_dbh;
     
 
-    private $chamber_id;
+    public $chamber_id;
     private $total_space;
     private $name;
      
@@ -48,12 +48,16 @@ class Chamber implements JsonSerializable {
     }
     
     
-    public function getRelatedPeriods($after = 0){
+    public function getRelatedPeriods($from = 0, $to = 2147483647){
         $all_periods = array();
         if($this->chamber_id != -1){
-            $stmt_related_periods = $this->pdo_dbh->prepare("SELECT `period_id` FROM `periods` WHERE `fk_chamber_id` = :chamber_id AND `start_date` > FROM_UNIXTIME(:time)");
+            $stmt_related_periods = $this->pdo_dbh->prepare("SELECT `period_id` FROM `periods`
+                                                             WHERE `fk_chamber_id` = :chamber_id
+                                                               AND DATE(`start_date`) >= DATE(FROM_UNIXTIME(:from))
+                                                               AND DATE(`end_date`) <= DATE(FROM_UNIXTIME(:to))");
             $stmt_related_periods->bindValue(':chamber_id', $this->chamber_id,PDO::PARAM_INT);
-            $stmt_related_periods->bindValue(':time',$after,PDO::PARAM_INT);
+            $stmt_related_periods->bindValue(':from',$from,PDO::PARAM_INT);
+            $stmt_related_periods->bindValue(':to',$to,PDO::PARAM_INT);
             $stmt_related_periods->execute();
             while($row = $stmt_related_periods->fetch(PDO::FETCH_ASSOC)){
                 $all_periods[] = new Period($row['peroid_id']);
@@ -140,6 +144,14 @@ class Chamber implements JsonSerializable {
         return $all_chambers;
     }
 
+
+    public static function numChambers(){
+        $stmt_allChambers  = DBconnection::getFactory()->getConnection()->query("SELECT count(`chamber_id`) as num FROM `Chambers`");
+        $all_chambers = array();
+        $result = $stmt_allChambers->fetchColumn();
+        $stmt_allChambers->closeCursor();
+        return $result;
+    }
 
     //***********************************************************************
 }

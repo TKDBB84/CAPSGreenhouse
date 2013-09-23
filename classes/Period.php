@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__.'DBconnection.php';
-require_once __DIR__.'Chamber.php';
-require_once __DIR__.'Setting.php';
+require_once __DIR__.'/DBconnection.php';
+require_once __DIR__.'/Chamber.php';
+require_once __DIR__.'/Setting.php';
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -21,12 +21,12 @@ class Period{
     
     private $peroid_chamber_id;
     private $peroid_setting_id;
-    private $peroid_id;
+    public $peroid_id;
     private $start_date;
     private $end_date;
     private $final_plant_date;
     private $final_harvest_date;
-    
+    private $decription;
     
     public function __construct($id = -1) {
         
@@ -230,7 +230,7 @@ class Period{
         }
         $this->final_plant_date = $time;
     }
-    
+
     public function getFinalPlantTime(){
         return $this->final_plant_date;
     }
@@ -238,6 +238,26 @@ class Period{
     public function getFinalPlantDate(){
         return date('F jS, Y',$this->final_plant_date);
     }
+
+
+
+    public function getDescription(){
+        return htmlentities($this->decription,ENT_HTML5,'UTF-8');
+    }
+
+    public function setDescription($text){
+        $this->decription = $text;
+    }
+
+
+    //*************************STATICS**********************************
+
+    public static function getAllInYear($year, $chamber_id = -1){
+        $periods = DBconnection::getFactory()->getConnection()->query("SELECT * FROM `Periods` WHERE yearstuff = yearstuff");
+    }
+
+
+    //******************************************************************
 }
 
 ?>

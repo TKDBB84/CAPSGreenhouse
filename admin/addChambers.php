@@ -41,13 +41,54 @@
             </div>
             <div class="row top-buffer">
                 <div class="col-md-12">
-                    <button class="btn btn-primary pull-right">Add New Chamber</button>
+                    <button id="addChamber" class="btn btn-primary pull-right">Add New Chamber</button>
                 </div>
             </div>
+        </div>
+        <div id="mkChamber">
+            <fieldset id="fs_dates">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Name:</label>
+                        <input type="text" name="chamber_name" class="setting form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Total Space:
+                            <div class="input-group">
+                                <input type="number" name="chamber_space" class="setting form-control"/>
+                                <span class="input-group-addon">trays</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
         </div>
         <?php include __DIR__.'/../bodyIncludes.php'; ?>
         <script>
             $(document).ready(function(){
+
+                var $dialog = $('#mkChamber').dialog({
+                    autoOpen: false,
+                    height: 255,
+                    width: 290,
+                    modal: true,
+                    title: 'Create Settings',
+                    buttons: {
+                        "Add" : function(){
+                            alert("SAVED!");
+                            $(this).dialog("close");
+                        },
+                        cancel: function() {
+                            $(this).dialog("close");
+                        }
+                    },
+                    close: function(){
+                        $('.setting').val('');
+                    }
+                });
+
                 var $dtAllChambers = $('#dtAllChambers').dataTable({
                     "aoColumns": [
                         { "mData": "name","sWidth": "30%" },
@@ -67,6 +108,10 @@
                     "sAjaxSource": '../ajax/dtJsonAllChambers.php',
                     "bJQueryUI": true,
                     "sServerMethod": "POST"
+                });
+
+                $('#addChamber').click(function(){
+                   $dialog.dialog("open");
                 });
             });
         </script>

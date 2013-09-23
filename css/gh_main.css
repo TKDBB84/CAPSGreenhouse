@@ -103,3 +103,7 @@ body{
 .top-buffer {
     margin-top:20px;
 }
+
+div.ui-dialog {
+    z-index: 1031 !important;
+}

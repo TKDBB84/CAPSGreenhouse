@@ -15,7 +15,7 @@ class Setting implements JsonSerializable {
 
     private $pdo_dbh;
     
-    private $setting_id;
+    public $setting_id;
     
     private $temperature;
     private $name;

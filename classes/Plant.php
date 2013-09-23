@@ -14,7 +14,7 @@ require_once __DIR__.'DBconnection.php';
  */
 class Plant{
     
-    private $set_id;
+    public $set_id;
     private $species;
     private $name;
     private $ideal_temp;

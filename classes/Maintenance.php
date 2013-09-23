@@ -12,7 +12,7 @@ require_once __DIR__.'DBconnection.php';
  */
 class Maintenance {
     private $pdo_dbh;
-    private $maintenance_id;
+    public  $maintenance_id;
     
     private $complete_date;
     private $description;

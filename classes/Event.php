@@ -17,7 +17,7 @@ class Event {
     private $pdo_dbh;
     
     
-    private $event_id;
+    public $event_id;
     private $fk_period_id;
     
     private $discription;

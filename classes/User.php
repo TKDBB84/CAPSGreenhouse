@@ -12,9 +12,9 @@ require_once __DIR__.'DBconnection.php';
  */
 class User {
     
-    private $user_id;
+    public $user_id;
   
-    private $group_id;
+    public $group_id;
     
     
            
